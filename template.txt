@@ -3,9 +3,12 @@
 
 using namespace std;
 
+const bool debug = false;
+
 int main() {
 	fastio;
 
+	// freopen("input.txt", "r", stdin);
 
 	return 0;
 }
