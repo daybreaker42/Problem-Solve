@@ -4,80 +4,99 @@
 #define INF 1000001
 using namespace std;
 
+
 /**
  * R = 0, G = 1, B = 2로 취급
  */
-int cost[SIZE][3] = {0};
-int result[SIZE][3] = {0};
-int firstSelectedNum[SIZE][3] = {0};
+int houseCost[SIZE][3] = { 0 }; // 각 집마다 드는 비용 저장
+int memory[SIZE][3][3] = { 0 }; // 각 집까지 드는 모든 경로의 비용 저장, 각각의 cell에선 1번 정보에 따라 3개씩 누적 cost 합 저장
+// int firstInfo[SIZE][3] = { 0 }; // i=0번 노드를 어떤 걸 사용했는지를 저장하는 배열
 
-// functions
-int mod_3(int n);
-int getLeftNum(int n1, int n2);
+int conv(int n);                // n을 항상 0~2 이내의 범위로 유지
+
+void printArr(int n, int array[SIZE][3]);
 
 int main() {
 	fastio;
     int n;
     cin >> n;
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < 3; j++){
-            cin >> cost[i][j];
-        }
+    for(int i = 0; i < n; i++){
+        cin >> houseCost[i][0] >> houseCost[i][1] >> houseCost[i][2];
     }
+
     // solving
-    int ans = INF;
-    for (int i = 0; i < 3; i++){
-        result[0][i] = cost[0][i];
-        firstSelectedNum[0][i] = i;
-    }
-    
-    for (int i = 1; i < n - 1; i++){
-        for (int j = 0; j < 3; j++){
-            if(result[i - 1][mod_3(j - 1)] >= result[i - 1][mod_3(j + 1)]){
-                result[i][j] = result[i - 1][mod_3(j - 1)] + cost[i][j];
-                firstSelectedNum[i][j] = firstSelectedNum[i - 1][mod_3(j - 1)];
-            }else{
-                result[i][j] = result[i - 1][mod_3(j + 1)] + cost[i][j];
-                firstSelectedNum[i][j] = firstSelectedNum[i - 1][mod_3(j + 1)];
+    // 1. memory 배열 초기화
+    for(int i = 0; i < SIZE; i++) {
+        for(int j = 0; j < 3; j++) {
+            for(int k = 0; k < 3; k++) {
+                memory[i][j][k] = INF;
             }
         }
     }
-    for (int i = 0; i < 3; i++){
-        for(int prev = 0; prev < 3; prev++){
-            if(prev == i) continue;
-            int firstSelected = firstSelectedNum[n - 2][prev];
-            if(firstSelected == i) continue;
-            if(result[n - 1][i] == 0) result[n - 1][i] = result[n - 2][prev] + cost[n - 1][i];
-            else result[n - 1][i] = min(result[n - 1][i], result[n - 2][prev] + cost[n - 1][i]);
+    
+    // 2. memory 배열 채우기
+    for(int x = 0; x < n; x++){
+        for(int y = 0; y < 3; y++){
+            if(x == 0){
+                // 해당 번호 말곤 나머진 INF
+                memory[x][y][y] = houseCost[x][y];
+                // firstInfo[x][y] = y;
+            }else if(x == n - 1){
+                // n번째 집
+                for(int firstIdx = 0; firstIdx < 3; firstIdx++){
+                    if(firstIdx != y){
+                        memory[x][y][firstIdx] = houseCost[x][y] + min(memory[x - 1][conv(y + 1)][firstIdx], memory[x - 1][conv(y - 1)][firstIdx]);
+                    }
+                }
+            }else{
+                // 2~n-1번쨰 집
+                for(int firstIdx = 0; firstIdx < 3; firstIdx++){
+                    memory[x][y][firstIdx] = houseCost[x][y] + min(memory[x - 1][conv(y + 1)][firstIdx], memory[x - 1][conv(y - 1)][firstIdx]);
+                }
+            }
         }
     }
-    /*
-    cout << "result" << endl;
-    for (int j = 0; j < 3; j++){
-        for (int i = 0; i < n; i++){
-            cout << result[i][j] << " ";
+
+    // output
+    int result = INF;
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            result = min(result, memory[n - 1][i][j]);
         }
-        cout << endl;
     }
-    cout << endl;
-    */
-        
-    for (int i = 0; i < 3; i++){
-        if(result[n - 1][i] != 0) ans = min(ans, result[n - 1][i]);
-    }
+    // cout << min(min(memory[n - 1][0], memory[n - 1][1]), memory[n - 1][2]);
+    cout << result;
 
-    cout << ans;
-	return 0;
+    // cout << "\n\n";
+    //     for(int i = 0; i < n; i++){
+    // for(int j = 0; j < 3; j++){
+    //         for(int k = 0; k < 3; k++){
+    //             cout << setw(7) << memory[i][j][k] << " ";
+    //         }
+    //         cout << "| ";
+    //     }
+    //     cout << "\n";
+    // }
+    return 0;
 }
 
-// n % 3의 결과를 양수로 출력
-int mod_3(int n){
-    if(n < 0) return (n + 3) % 3;
-    return n % 3;
+int conv(int n){
+    if(n < -1 || n > 3) throw out_of_range("Index out of range");
+    if(n < 0) return n + 3;
+    if(n >= 3) return n - 3;
+    return n;
 }
 
-// 3개 숫자중 남은 수를 반환하는 함수
-int getLeftNum(int n1, int n2){
-    if(n1 == n2) return -1;
-    return 6 - (n1 + n2);
+void printArr(int n, int array[SIZE][3]){
+    for(int j = 0; j < 4; j++){
+        for(int i = 0; i < n; i++){
+            if(j == 0){
+                cout << "i=" << setw(4) << i << " ";
+            }else{
+                cout << setw(6) << array[i][j - 1] << " ";
+            }
+        }
+        cout << "\n";
+    }
+    cout << "-----------------\n";
 }
