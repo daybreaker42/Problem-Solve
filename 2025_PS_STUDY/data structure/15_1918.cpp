@@ -31,18 +31,12 @@ void operStart() {
 int main() {
     fastio;
 
-    freopen("input.txt", "r", stdin);
-
-    // for(int t = 0; t < 100; t++){
+    // freopen("input.txt", "r", stdin);
 
     string exp;
     cin >> exp;
 
-    // string ans;
-    // cin >> exp >> ans >> ans;
-
     // solving
-
     for (int i = 0; i < exp.length(); i++) {
         char c = exp[i];
         if (isalpha(c)) {
@@ -57,7 +51,7 @@ int main() {
                     operStart();
                 }
 
-                if(c == ')'){
+                if(c == ')'){   // 이거때문에 마지막에 고생 - 여기에 )는 오면 안됨
                     oper.pop();
                 }else{
                     oper.push(c);
@@ -86,24 +80,25 @@ int main() {
         operStart();
     }
 
-//     cout << "t: " << t << "\n";
     cout << variable.top() << endl;
-//     if(!variable.top().compare(ans)){
-//         cout <<  "True\n";
-//     }else{
-//         cout <<  "False\n";
-//     }
-//     cout << "---------------------\n";
-//     cout << "\n";
-// }
 
     return 0;
 }
 
 /* comments
 idea)
-- 재귀함수를 이용해 괄호 처리 - 괄호 안에서 일어난 연산은 우선적으로 처리되므로
-    - 괄호가 끝날 때 내에 들어온 상태인진 검사 X - 괄호가 있어서 들어왔을거기 때문에
+스택 두개를 이용해 각각 알파벳, 연산자를 처리
+- 알파벳이 들어올 경우 -> 스택에 항상 넣음
+- 연산자가 들어올 경우
+    - 이전에 연산자가 있는데 그거랑 우선순위가 같거나 더 작은 경우 -> 이전 연산 수행 (조건을 만족하는 한), 괗로 만나면 멈춤
+        - 그리고 만약 다음에 오는게 )만 아니면 스택에 넣고 계속 진행
+    - oper가 비어있는 경우 -> 다음에 뭐가 올지 모르므로 keep
+    - oper에 값이 있는데 그것보다 더 우선순위가 높은 경우 -> 
+        - )이 나온거면 clear 진행
+        - 다른거면 keep
+- 마지막에 한번 스택 싹 비워줌
+
+-> 재귀함수로 할 수 있을 것 같은데...
 
 
 바로 처리할 수 있는 경우
