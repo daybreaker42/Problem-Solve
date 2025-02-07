@@ -1,23 +1,28 @@
 #include <bits/stdc++.h>
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define SIZE 10
+#define MAX 99999 + 1
 using namespace std;
 
 // const bool debug = false;
 
 // O(sqrt(N))
-bool isPrime(int n){
-    if(n < 2) return false;
-    for(int i = 2; i * i <= n; i++){
-        if(n % i == 0) return false;
-    }
-    return true;
-}
+// bool isPrime(int n){
+//     if(n < 2) return false;
+//     for(int i = 2; i * i <= n; i++){
+//         if(n % i == 0) return false;
+//     }
+//     return true;
+// }
+
+bool isPrime[MAX] = {false};
+
+void initPrimeList();
 
 // 조건1: 서로 다른 두 소수의 합으로 나타낼 수 있는지
 bool checkCondition1(int n){
     for(int i = 2; i <= n / 2; i++){
-        if(isPrime(i) && isPrime(n - i)) return true;   // i < n / 2 이므로 서로 안겹침
+        if(i != n - i && isPrime[i] && isPrime[n - i]) return true;   // i < n / 2 이므로 서로 안겹침
     }
     return false;
 }
@@ -28,7 +33,7 @@ bool checkCondition2(int n, int divisor){
     }
     // n 소인수분해
     int cnt = 0;
-    // 비트 연산으로 최적화a
+    // 비트 연산으로 최적화
     while((n & 1) == 0){
         n >>= 1;
         cnt++;
@@ -37,10 +42,10 @@ bool checkCondition2(int n, int divisor){
         }
     }
     
-    for(int i = 3; i * i <= n; i += 2){
+    for(int i = 3; i <= n; i += 2){ // n까지 돌아야
         while(n % i == 0){
             n /= i;
-            cnt ++;
+            cnt++;
             if(cnt > 2){
                 return false;
             }
@@ -73,8 +78,10 @@ int main() {
     int length, divisor;
     cin >> length >> divisor;
 
+    initPrimeList();
+
     // solving
-    int count = 0, num = 0, maxNum = power(10, length);
+    int count = 0, num = 0;
     vector<bool> selected(SIZE, false);
     fill(selected.end() - length, selected.end(), true);
     
@@ -85,10 +92,6 @@ int main() {
         }
         do{
             if(temp[0] == 0) continue;
-            // for(int i = 0; i < temp.size(); i++){
-            //     cout << temp[i] << " ";
-            // }
-            // cout << "\n";
 
             int target = convertNum(temp);
             if(checkCondition1(target) && checkCondition2(target, divisor)){
@@ -101,6 +104,19 @@ int main() {
     cout << count;
     
 	return 0;
+}
+
+void initPrimeList(){
+    fill(isPrime, isPrime + MAX, true);
+    isPrime[0] = false;
+    isPrime[1] = false;
+    for(int i = 2; i <= MAX; i++){
+        if(isPrime[i]){
+            for(int j = i * 2; j <= MAX; j += i){
+                isPrime[j] = false;
+            }
+        }
+    }
 }
 
 /* comment
@@ -121,4 +137,7 @@ int main() {
 풀이
 1) 조합으로 숫자 생성
 2) 생성한 숫자가 조건 1, 2 모두 만족하는지 판별
+ㄴ시간초과
+
+- 에라토스테네스의 체 사용하니까 풀림
 */
