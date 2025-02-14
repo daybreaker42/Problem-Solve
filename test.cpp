@@ -1,26 +1,30 @@
 #include <bits/stdc++.h>
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-#define SIZE 100000
 using namespace std;
 
+pair<int, long long> getValue(){
+    return {1, 2};
+}
 
-// const bool debug = false;
+struct circle {
+    int idx;
+    int status;
+};
 
-int height[SIZE];              // 건물 높이 저장
-int visible_count[SIZE];    // 건물당 볼 수 있는 건물 개수 저장
-int near_building[SIZE];    // 가장 가까우면서 번호가 작은 빌딩 번호 저장
+map<int, circle> x_axis;   // {좌표, {원 번호, 상태}} / 상태 : 시작 = 1, 종료 = 2
+
 
 int main() {
 	fastio;
-
-	// freopen("input.txt", "r", stdin);
-    int arr[] = {1, 2, 3, 4, 5};
-    deque<int> dq(5);
-    for(int i = 0; i < 5; i++){
-        dq[i] = arr[i];
-    }
-
-    for(auto i : dq){
-        cout << i << " ";
-    }
+    
+    
+    // bitset<10> b1;
+    // for(int i = 0; i < 16; i++){
+    //     b1 = bitset<10>(i);
+    //     for(int i = 0; i < 4; i++){
+    //         cout << b1[i] << " ";
+    //     }    
+    //     cout << endl;
+    // }
+    cout << pow(2, 5);
 }
