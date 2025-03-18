@@ -96,6 +96,10 @@
         "xlocbuf": "cpp",
         "xlocmes": "cpp",
         "xlocmon": "cpp",
-        "xloctime": "cpp"
+        "xloctime": "cpp",
+        "codecvt": "cpp",
+        "cuchar": "cpp",
+        "memory_resource": "cpp",
+        "shared_mutex": "cpp"
     },
 }

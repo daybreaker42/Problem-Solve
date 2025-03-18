@@ -1,30 +1,19 @@
 #include <bits/stdc++.h>
-#define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 using namespace std;
 
-pair<int, long long> getValue(){
-    return {1, 2};
-}
+#define pii pair<int, int>
 
-struct circle {
-    int idx;
-    int status;
-};
-
-map<int, circle> x_axis;   // {좌표, {원 번호, 상태}} / 상태 : 시작 = 1, 종료 = 2
-
-
-int main() {
-	fastio;
+int main(){
+    // string s1 = "hello-friends";
+    // int st = 1;
+    // cout << s1.substr(st, s1.find("-") - st) << endl;   // substr(시작, 길이) - 시작부터 길이만큼
+    // cout << s1.substr(s1.find("-"));    // substr(위치) - 위치부터 끝까지
     
-    
-    // bitset<10> b1;
-    // for(int i = 0; i < 16; i++){
-    //     b1 = bitset<10>(i);
-    //     for(int i = 0; i < 4; i++){
-    //         cout << b1[i] << " ";
-    //     }    
-    //     cout << endl;
-    // }
-    cout << pow(2, 5);
+    map<int, int> m = {
+        {1, 2},
+        {3, 4}
+    };
+    m.clear();
+    cout << ++m[1];
+
 }

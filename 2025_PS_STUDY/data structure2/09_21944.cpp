@@ -10,12 +10,18 @@ int main() {
 	fastio;
 
 	// freopen("../../input.txt", "r", stdin);
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++){
+        
+    }
+    
 
 	return 0;
 }
 
 /* comment 
 
-
+solving
 
 */

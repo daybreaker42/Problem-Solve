@@ -46,12 +46,14 @@ int main() {
         string temp;
         for(int str_idx = 0; str_idx < str.length(); str_idx++){
             if(str[str_idx] == '(' || str[str_idx] == ')'){
+                // 괄호 나왔을때 -> 해당 괄호쌍 추가시에만 temp에 추가
                 int b_idx = braket_idx[str_idx];    // 원본 인덱스를 이용해 해당 braket의 idx를 구함
                 if(b1[b_idx]){
                     // 만약 해당 braket이 사용된다면 temp에 추가
                     temp += str[str_idx];
                 }
             }else{
+                // 괄호 말고 다른거 -> 바로 추가
                 temp += str[str_idx];
             }
         }
