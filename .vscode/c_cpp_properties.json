@@ -4,9 +4,9 @@
       "name": "windows-gcc-x86",
       "includePath": [
         "${workspaceFolder}/**",
-        "C:\\MinGW\\include",
+        "D:\\MinGW\\include",
       ],
-      "compilerPath": "C:/MinGW/bin/gcc.exe",
+      "compilerPath": "D:/MinGW/bin/gcc.exe",
       "cStandard": "${default}",
       "cppStandard": "${default}",
       "intelliSenseMode": "windows-gcc-x86",
