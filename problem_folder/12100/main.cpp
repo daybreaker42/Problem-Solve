@@ -148,7 +148,9 @@ int main() {
 
 /* comment - 260131
 - 단순 구현 문제
-
+- 실수 2번
+  1. transpose에서 index 실수 - n - j - 1으로 해야했었는데 -1 까먹음
+  2. initBoardMerge 까먹음 - 이거 안하면 한 번 merge하고나서 다음에 merge 안함
 
 
 */
